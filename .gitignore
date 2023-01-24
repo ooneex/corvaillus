@@ -1,0 +1,11 @@
+.idea
+.DS_Store
+node_modules
+.turbo
+*.log
+.next
+dist
+dist-ssr
+*.local
+.cache
+public/dist

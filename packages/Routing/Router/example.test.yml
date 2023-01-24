@@ -1,0 +1,35 @@
+homepage:
+  # Required
+  path: "/products/:id/:name"
+  protocol: ["https", "http"]
+  host: ["api.ooneex.io", "ooneex.io"]
+  ip: ["127.0.0.1"]
+  port: ["80", "8000"]
+  constraint:
+    where:
+      price: 30
+      name: "keyboard"
+    regex:
+      price: "^[0-9]+$"
+      name: "^[a-z0-9]+$"
+    number: ["part"]
+    alphaNumeric: ["code"]
+    uuid: ["id"]
+    in:
+      name: ["Doe", "Obama"]
+  default:
+    id: "58806cc0-f564-45ea-8266-198967a08503"
+    name: "Doe"
+#   Default value is GET
+  method: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]
+  data:
+    color: "red"
+    size: 42
+  locale: ["fr", "en"]
+  role: ["ROLE_ANON", "ROLE_USER", "ROLES_ADMIN"]
+  env: ["prod", "dev", "test", "demo"]
+  # Todo: to remove
+  action: "HomepageAction"
+  version: ["1.2.3", "2.0.0"]
+  fixture: "Product/ShowFixture"
+  description: "Route description"
