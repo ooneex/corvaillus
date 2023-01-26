@@ -6,14 +6,14 @@ import {
   Helper,
   HttpMethodType,
   HttpProtocolType,
+  Collection
 } from "../deps.ts";
 
-import { RouteCollection } from "../Collection.ts";
-import { Route } from "../Route/Route.ts";
-import { IRoute, IRouter } from "../types.ts";
+import {Route} from "../Route/Route.ts";
+import {IRoute, IRouter} from "../types.ts";
 
 export class Router implements IRouter {
-  private routeCollection = new RouteCollection();
+  private routeCollection = new Collection<string, Route>();
 
   public get(
     name: string,
@@ -123,7 +123,7 @@ export class Router implements IRouter {
 
   public fromYaml(
     data: Record<string, Record<string, unknown>>,
-  ): RouteCollection {
+  ): Collection<string, Route> {
     const names = Object.keys(data);
 
     names.map((name) => {
@@ -133,29 +133,29 @@ export class Router implements IRouter {
         return;
       }
 
-      const route = new Route({ name, path });
+      const route = new Route({name, path});
       route
-        .component(
+        .setComponent(
           Helper.getByKey<string>(data[name], "component"),
         )
-        .handler(
+        .setHandler(
           Helper.getByKey<string>(data[name], "handler"),
         )
-        .middleware(
+        .setMiddleware(
           Helper.getByKey<string[]>(data[name], "middleware"),
         )
-        .method(Helper.getByKey<HttpMethodType[]>(data[name], "method"))
-        .protocol(Helper.getByKey<HttpProtocolType[]>(data[name], "protocol"))
-        .host(Helper.getByKey<string[]>(data[name], "host"))
-        .ip(Helper.getByKey<string[]>(data[name], "ip"))
-        .port(Helper.getByKey<string[]>(data[name], "port"))
-        .default(Helper.getByKey<Record<string, string>>(data[name], "default"))
-        .data(Helper.getByKey<Record<string, unknown>>(data[name], "data"))
-        .locale(Helper.getByKey<AppLocaleType[]>(data[name], "locale"))
-        .role(Helper.getByKey<AppRoleType[]>(data[name], "role"))
-        .env(Helper.getByKey<AppEnvType[]>(data[name], "env"))
-        .version(Helper.getByKey<AppVersionType[]>(data[name], "version"))
-        .description(Helper.getByKey<string>(data[name], "description"));
+        .setMethod(Helper.getByKey<HttpMethodType[]>(data[name], "method"))
+        .setProtocol(Helper.getByKey<HttpProtocolType[]>(data[name], "protocol"))
+        .setHost(Helper.getByKey<string[]>(data[name], "host"))
+        .setIp(Helper.getByKey<string[]>(data[name], "ip"))
+        .setPort(Helper.getByKey<string[]>(data[name], "port"))
+        .setDefault(Helper.getByKey<Record<string, string>>(data[name], "default"))
+        .setData(Helper.getByKey<Record<string, unknown>>(data[name], "data"))
+        .setLocale(Helper.getByKey<AppLocaleType[]>(data[name], "locale"))
+        .setRole(Helper.getByKey<AppRoleType[]>(data[name], "role"))
+        .setEnv(Helper.getByKey<AppEnvType[]>(data[name], "env"))
+        .setVersion(Helper.getByKey<AppVersionType[]>(data[name], "version"))
+        .setDescription(Helper.getByKey<string>(data[name], "description"));
 
       // Set where constraint
       const where = Helper.getByKey<Record<string, string>>(
@@ -235,7 +235,7 @@ export class Router implements IRouter {
     return this.routeCollection.get(name);
   }
 
-  public getCollection(): RouteCollection {
+  public getCollection(): Collection<string, Route> {
     return this.routeCollection;
   }
 }

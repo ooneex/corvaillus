@@ -1,4 +1,3 @@
-import { RouteCollection } from "./Collection.ts";
 import {
   AppEnvType,
   AppLocaleType,
@@ -6,6 +5,7 @@ import {
   AppVersionType,
   HttpMethodType,
   HttpProtocolType,
+  Collection, Route
 } from "./deps.ts";
 
 export type RouteConstraintType = {
@@ -93,43 +93,54 @@ export type RouteType = {
    */
   version?: AppVersionType[];
   /**
+   * Render fixture for this route
+   */
+  fixture?: string;
+  /**
    * Route description. Used for documentation
    */
   description?: string;
-
-  _details?: {
-    component?: (() => void) | null;
-    handler?: (() => void) | null;
-    middleware?: (() => void)[] | null;
-    file?: string;
-  };
 };
 
 export interface IRoute {
   getName(): string;
+
   getProtocol(): HttpProtocolType[];
+
   getHost(): string[];
+
   getIp(): string[];
+
   getPort(): string[];
+
   getPath(): string;
-  // where(name: string, value: string | number): this;
-  // whereRegex(name: string, constraint: RegExp): this;
-  // whereNumber(name: string): this;
-  // whereAlphaNumeric(name: string): this;
-  // whereUuid(name: string): this;
-  // whereIn(name: string, values: string[]): this;
+
   getDefault(): Record<string, string>;
+
   getHandler(): string | null;
+
   getComponent(): string | null;
+
   getMiddleware(): string[] | null;
+
   getMethod(): HttpMethodType[];
+
   getData<T>(): Record<string, T>;
+
   getLocale(): AppLocaleType[];
+
   getRole(): AppRoleType[];
+
   getEnv(): AppEnvType[];
+
   getVersion(): AppVersionType[];
+
+  getFixture(): string | null;
+
   getDescription(): string | null;
+
   get<T>(key: keyof RouteType): T;
+
   isEquals(matchedRoute: IMatchedRoute): boolean;
 }
 
@@ -154,20 +165,34 @@ export type MatchedRouteType = {
   env?: AppEnvType;
   version?: AppVersionType;
 };
+
 export interface IMatchedRoute {
   getCaptures(): string[] | null;
+
   getMethods(): HttpMethodType[] | null;
+
   getName(): string | null;
+
   getPath(): string | null;
+
   getParams(): MatchedRouteParamsType;
+
   getMethod(): HttpMethodType | null;
+
   getProtocol(): HttpProtocolType | null;
+
   getIp(): string | null;
+
   getHost(): string | null;
+
   getPort(): string | null;
+
   getLocale(): AppLocaleType | null;
+
   getRole(): AppRoleType | null;
+
   getEnv(): AppEnvType | null;
+
   getVersion(): AppVersionType | null;
 }
 
@@ -180,21 +205,34 @@ export type RouteCheckerErrorType = {
 
 export interface IRouteChecker {
   check(route: IRoute, MatchedRoute: IMatchedRoute): this;
+
   isValid(): boolean;
+
   getErrors(): RouteCheckerErrorType;
+
   checkMethod(): boolean | string;
+
   checkProtocol(): boolean | string;
+
   checkHost(): boolean | string;
+
   checkPort(): boolean | string;
+
   checkLocale(): boolean | string;
+
   checkRole(): boolean | string;
+
   checkEnv(): boolean | string;
+
   checkVersion(): boolean | string;
+
   checkConstraints(): boolean | RouteCheckerErrorType;
 }
 
 export interface IRouter {
   count(): number;
+
   findByName(name: string): IRoute | undefined;
-  getCollection(): RouteCollection;
+
+  getCollection(): Collection<string, Route>;
 }

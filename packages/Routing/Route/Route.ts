@@ -1,4 +1,4 @@
-import { RouteChecker } from "../Checker/RouteChecker.ts";
+import {RouteChecker} from "../Checker/RouteChecker.ts";
 import {
   AppDefaultEnv,
   AppEnvType,
@@ -10,10 +10,9 @@ import {
   HttpMethodType,
   HttpProtocolType,
 } from "../deps.ts";
-import { IMatchedRoute, IRoute, RouteType } from "../types.ts";
+import {IMatchedRoute, IRoute, RouteType} from "../types.ts";
 
 export class Route implements IRoute {
-  public static NOT_FOUND = "NotFound";
   public static DEFAULT_LOCALE: AppLocaleType[] = [];
   private readonly route: RouteType;
 
@@ -23,25 +22,9 @@ export class Route implements IRoute {
     if (!this.route.constraint) {
       this.route.constraint = [];
     }
-
-    this.component(this.route.component);
-    this.handler(this.route.handler);
-    this.middleware(this.route.middleware);
-    this.method(this.route.method);
-    this.protocol(this.route.protocol);
-    this.host(this.route.host);
-    this.ip(this.route.ip);
-    this.port(this.route.port);
-    this.default(this.route.default);
-    this.data(this.route.data);
-    this.locale(this.route.locale);
-    this.role(this.route.role);
-    this.env(this.route.env);
-    this.version(this.route.version);
-    this.description(this.route.description);
   }
 
-  public data<T>(data: Record<string, T> = {}): this {
+  public setData<T>(data: Record<string, T> = {}): this {
     this.route.data = data;
 
     return this;
@@ -51,7 +34,7 @@ export class Route implements IRoute {
     return (this.route.data as T) ?? {};
   }
 
-  public default(values: Record<string, string> = {}): this {
+  public setDefault(values: Record<string, string> = {}): this {
     this.route.default = values;
 
     return this;
@@ -61,7 +44,17 @@ export class Route implements IRoute {
     return this.route.default ?? {};
   }
 
-  public description(text: string | undefined): this {
+  public setFixture(fixture: string | undefined): this {
+    this.route.fixture = fixture;
+
+    return this;
+  }
+
+  public getFixture(): string | null {
+    return this.route.fixture ?? null;
+  }
+
+  public setDescription(text: string | undefined): this {
     this.route.description = text;
 
     return this;
@@ -71,7 +64,7 @@ export class Route implements IRoute {
     return this.route.description ?? null;
   }
 
-  public env(env: AppEnvType[] = AppDefaultEnv): this {
+  public setEnv(env: AppEnvType[] = AppDefaultEnv): this {
     this.route.env = env;
 
     return this;
@@ -81,7 +74,7 @@ export class Route implements IRoute {
     return this.route.env ?? AppDefaultEnv;
   }
 
-  public host(host: string[] = []): this {
+  public setHost(host: string[] = []): this {
     this.route.host = host;
 
     return this;
@@ -91,7 +84,7 @@ export class Route implements IRoute {
     return this.route.host ?? [];
   }
 
-  public ip(ip: string[] = []): this {
+  public setIp(ip: string[] = []): this {
     this.route.ip = ip;
 
     return this;
@@ -101,7 +94,7 @@ export class Route implements IRoute {
     return this.route.ip ?? [];
   }
 
-  public locale(locale: AppLocaleType[] = Route.DEFAULT_LOCALE): this {
+  public setLocale(locale: AppLocaleType[] = Route.DEFAULT_LOCALE): this {
     this.route.locale = locale;
 
     return this;
@@ -111,27 +104,27 @@ export class Route implements IRoute {
     return this.route.locale ?? Route.DEFAULT_LOCALE;
   }
 
-  public component(component: string = Route.NOT_FOUND): this {
+  public setComponent(component?: string): this {
     this.route.component = component;
 
     return this;
   }
 
-  public getComponent(): string {
-    return this.route.component ?? Route.NOT_FOUND;
+  public getComponent(): string | null {
+    return this.route.component ?? null;
   }
 
-  public handler(handler: string = Route.NOT_FOUND): this {
+  public setHandler(handler?: string): this {
     this.route.handler = handler;
 
     return this;
   }
 
-  public getHandler(): string {
-    return this.route.handler ?? Route.NOT_FOUND;
+  public getHandler(): string | null {
+    return this.route.handler ?? null;
   }
 
-  public middleware(middleware?: string[]): this {
+  public setMiddleware(middleware?: string[]): this {
     this.route.middleware = middleware;
 
     return this;
@@ -141,7 +134,7 @@ export class Route implements IRoute {
     return this.route.middleware ?? null;
   }
 
-  public method(method: HttpMethodType[] = HttpDefaultMethods): this {
+  public setMethod(method: HttpMethodType[] = HttpDefaultMethods): this {
     this.route.method = method;
 
     return this;
@@ -151,7 +144,7 @@ export class Route implements IRoute {
     return this.route.method ?? HttpDefaultMethods;
   }
 
-  public name(name: string): this | string {
+  public setName(name: string): this | string {
     this.route.name = name;
 
     return this;
@@ -161,7 +154,7 @@ export class Route implements IRoute {
     return this.route.name;
   }
 
-  public path(path: string): this {
+  public setPath(path: string): this {
     this.route.path = path;
 
     return this;
@@ -171,7 +164,7 @@ export class Route implements IRoute {
     return this.route.path;
   }
 
-  public port(port: string[] = []): this {
+  public setPort(port: string[] = []): this {
     this.route.port = port ?? [];
 
     return this;
@@ -181,7 +174,7 @@ export class Route implements IRoute {
     return this.route.port ?? [];
   }
 
-  public protocol(protocol: HttpProtocolType[] = HttpDefaultProtocols): this {
+  public setProtocol(protocol: HttpProtocolType[] = HttpDefaultProtocols): this {
     this.route.protocol = protocol;
 
     return this;
@@ -191,7 +184,7 @@ export class Route implements IRoute {
     return this.route.protocol ?? HttpDefaultProtocols;
   }
 
-  public role(role: AppRoleType[] = []): this {
+  public setRole(role: AppRoleType[] = []): this {
     this.route.role = role;
 
     return this;
@@ -201,7 +194,7 @@ export class Route implements IRoute {
     return this.route.role ?? [];
   }
 
-  public version(version: AppVersionType[] = []): this {
+  public setVersion(version: AppVersionType[] = []): this {
     this.route.version = version;
 
     return this;

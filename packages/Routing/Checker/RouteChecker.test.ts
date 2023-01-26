@@ -1,4 +1,4 @@
-import { assertEquals, describe, it } from "../../../deps.ts";
+import {assertEquals, describe, it} from "../../../deps.ts";
 import {
   MatchedRoute,
   Route,
@@ -30,73 +30,73 @@ describe("Htt RouteChecker", () => {
   });
 
   it("checkMethod", () => {
-    route.method(["POST", "PUT"]);
+    route.setMethod(["POST", "PUT"]);
     assertEquals(
       routeChecker.checkMethod(),
       "GET method not allowed. Expected POST or PUT.",
     );
-    route.method(undefined);
+    route.setMethod(undefined);
     assertEquals(routeChecker.checkMethod(), true);
   });
 
-  route.host(["api.google.com", "localhost"]);
+  route.setHost(["api.google.com", "localhost"]);
   assertEquals(
     routeChecker.checkHost(),
     "google.com host not allowed. Expected api.google.com or localhost.",
   );
   matchedRoute.setHost("localhost");
   assertEquals(routeChecker.checkHost(), true);
-  route.host(undefined);
+  route.setHost(undefined);
   assertEquals(routeChecker.checkHost(), true);
 
-  route.port(["3000", "4000"]);
+  route.setPort(["3000", "4000"]);
   assertEquals(
     routeChecker.checkPort(),
     "9000 port not allowed. Expected 3000 or 4000.",
   );
   matchedRoute.setPort("4000");
   assertEquals(routeChecker.checkPort(), true);
-  route.port(undefined);
+  route.setPort(undefined);
   assertEquals(routeChecker.checkPort(), true);
 
-  route.locale(["fr", "en"]);
+  route.setLocale(["fr", "en"]);
   assertEquals(
     routeChecker.checkLocale(),
     "uk locale not allowed. Expected fr or en.",
   );
   matchedRoute.setLocale("en");
   assertEquals(routeChecker.checkLocale(), true);
-  route.locale(undefined);
+  route.setLocale(undefined);
   assertEquals(routeChecker.checkLocale(), true);
 
-  route.role(["ROLE_USER", "ROLE_ADMIN"]);
+  route.setRole(["ROLE_USER", "ROLE_ADMIN"]);
   assertEquals(
     routeChecker.checkRole(),
     "ROLE_ANON role not allowed. Expected ROLE_USER or ROLE_ADMIN.",
   );
   matchedRoute.setRole("ROLE_USER");
   assertEquals(routeChecker.checkRole(), true);
-  route.role(undefined);
+  route.setRole(undefined);
   assertEquals(routeChecker.checkRole(), true);
 
-  route.env(["prod", "demo"]);
+  route.setEnv(["prod", "demo"]);
   assertEquals(
     routeChecker.checkEnv(),
     "dev env not allowed. Expected prod or demo.",
   );
   matchedRoute.setEnv("prod");
   assertEquals(routeChecker.checkEnv(), true);
-  route.env(undefined);
+  route.setEnv(undefined);
   assertEquals(routeChecker.checkEnv(), true);
 
-  route.version(["1.1.1", "1.3.0"]);
+  route.setVersion(["1.1.1", "1.3.0"]);
   assertEquals(
     routeChecker.checkVersion(),
     "2.2.0 version not allowed. Expected 1.1.1 or 1.3.0.",
   );
   matchedRoute.setVersion("1.3.0");
   assertEquals(routeChecker.checkVersion(), true);
-  route.version(undefined);
+  route.setVersion(undefined);
   assertEquals(routeChecker.checkVersion(), true);
 
   matchedRoute.setParams({
