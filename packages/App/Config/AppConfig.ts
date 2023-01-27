@@ -1,8 +1,7 @@
-import { IAppConfig } from "./IAppConfig.ts";
-import { YamlParser } from "../../Parser/mod.ts";
-import { File } from "../../File/mod.ts";
-import { AppConfigErrorType, AppConfigType } from "./types.ts";
-import { AppDirectoryType } from "../Directory/types.ts";
+import {YamlParser} from "../../Parser/mod.ts";
+import {File} from "../../File/mod.ts";
+import {AppConfigErrorType, AppConfigType, IAppConfig} from "./types.ts";
+import {AppDirectoryType} from "../Directory/types.ts";
 
 export class AppConfig implements IAppConfig {
   private appConfig: AppConfigType | null = null;
@@ -22,8 +21,11 @@ errors:
   _500: "errors/_500.tsx"
 `;
     const file = new File("config/app.yml");
-    file.ensure();
-    file.write(fileContent);
+
+    if (!file.exists()) {
+      file.ensure();
+      file.write(fileContent);
+    }
   }
 
   public parse(): void {
