@@ -1,4 +1,5 @@
-import { assertEquals, describe, it } from "../../deps.ts";
+import { assertEquals } from "@ooneex/testing/asserts.ts";
+import { describe, it } from "@ooneex/testing/bdd.ts";
 import { DotEnv } from "./mod.ts";
 
 const __dirname = new URL(".", import.meta.url).pathname;

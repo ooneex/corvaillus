@@ -1,2 +1,5 @@
-var
+var/cache/*
+!var/cache/.gitkeep
+var/log/*
+!var/log/.gitkeep
 *.local

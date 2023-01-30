@@ -1,18 +1,18 @@
-import { Manifest, start, StartOptions } from "./deps.ts";
-import { env } from "./Env/Env.ts";
 import { appConfig } from "./Config/AppConfig.ts";
+import { env } from "./Env/Env.ts";
+import { appRouter } from "./Router/AppRouter.ts";
 
 export class Kernel {
-  public static async boot(manifest: Manifest, opts: StartOptions = {}) {
+  public static async boot(): Promise<void> {
     env.generateEnvFile();
     await env.parse();
 
     appConfig.generateAppConfigFile();
-    appConfig.parse();
+    await appConfig.parse();
 
-    // Upgrade manifest file
-    // console.log(manifest);
+    await appRouter.parse();
 
-    await start(manifest, { ...opts, port: env.getPort() || undefined });
+    // await start(manifest, opts);
+    // await start(manifest, {...opts, port: env.getPort() || undefined});
   }
 }

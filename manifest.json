@@ -1,0 +1,18 @@
+{
+  "routes": {
+    "./routes/index.tsx": Module { "default": "[Function: Home]" },
+"./routes/user.tsx": Module { config: { routeOverride: "/users" }, default: [Function: Greet] }
+},
+islands: { "./islands/Counter.tsx": Module { default: [Function: Counter] } },
+baseUrl: "file:///Volumes/Projects/Ooneex/Corvaillus/apps/ooneex/fresh.gen.ts",
+config: {
+tasks: {
+dev: "deno run -A --watch=static/,routes/ dev.ts",
+test: "deno test -A --unstable .",
+fmt: "deno fmt",
+lint: "deno fmt --check && deno lint"
+},
+importMap: "./import_map.json",
+compilerOptions: { jsx: "react-jsx", jsxImportSource: "preact" }
+}
+}

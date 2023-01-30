@@ -1,26 +1,33 @@
-import {YamlParser} from "../../Parser/mod.ts";
-import {File} from "../../File/mod.ts";
-import {AppConfigErrorType, AppConfigType, IAppConfig} from "./types.ts";
-import {AppDirectoryType} from "../Directory/types.ts";
+import { File } from "../../File/mod.ts";
+import { AppDirectoryType } from "../Directory/types.ts";
+import { AppConfigErrorType, AppConfigType, IAppConfig } from "./types.ts";
 
 export class AppConfig implements IAppConfig {
-  private appConfig: AppConfigType | null = null;
+  private config: AppConfigType | null = null;
 
   public generateAppConfigFile(): void {
-    const fileContent = `directories:
-  components: "components"
-  config: "config"
-  handlers: "handlers"
-  islands: "islands"
-  middlewares: "middlewares"
-  routes: "routes"
-  static: "static"
-  views: "views"
-errors:
-  _404: "errors/_404.tsx"
-  _500: "errors/_500.tsx"
+    const fileContent = `import { AppConfigType } from "@ooneex/app";
+
+const config: AppConfigType = {
+  directories: {
+    components: "components",
+    config: "config",
+    handlers: "handlers",
+    islands: "islands",
+    middlewares: "middlewares",
+    routes: "routes",
+    static: "static",
+    views: "views",
+  },
+  errors: {
+    _404: "errors/_404.tsx",
+    _500: "errors/_500.tsx",
+  },
+};
+
+export default config;
 `;
-    const file = new File("config/app.yml");
+    const file = new File("config/app.config.ts");
 
     if (!file.exists()) {
       file.ensure();
@@ -28,19 +35,16 @@ errors:
     }
   }
 
-  public parse(): void {
-    const file = new File("config/app.yml");
-    const parser = new YamlParser(file.read());
-
-    this.appConfig = parser.getData<AppConfigType>();
+  public async parse(): Promise<void> {
+    this.config = (await import(`config/app.config.ts`)).default;
   }
 
   public getDirectories(): AppDirectoryType | null {
-    return this.appConfig?.directories || null;
+    return this.config?.directories || null;
   }
 
   public getErrors(): AppConfigErrorType | null {
-    return this.appConfig?.errors || null;
+    return this.config?.errors || null;
   }
 }
 

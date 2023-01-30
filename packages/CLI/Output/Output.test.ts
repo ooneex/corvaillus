@@ -1,10 +1,6 @@
-import {
-  assertEquals,
-  assertSpyCalls,
-  describe,
-  it,
-  spy,
-} from "../../../deps.ts";
+import { assertEquals } from "@ooneex/testing/asserts.ts";
+import { describe, it } from "@ooneex/testing/bdd.ts";
+import { assertSpyCalls, spy } from "@ooneex/testing/mock.ts";
 import { figures } from "../Figure/deps.ts";
 import { EOL, Style } from "./deps.ts";
 import { Output } from "./mod.ts";

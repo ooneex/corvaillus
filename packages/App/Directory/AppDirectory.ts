@@ -1,4 +1,4 @@
-import {AppDirectoryType, IAppDirectory} from "./types.ts";
+import { AppDirectoryType, IAppDirectory } from "./types.ts";
 
 export class AppDirectory implements IAppDirectory {
   constructor(private data: AppDirectoryType) {

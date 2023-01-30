@@ -1,27 +1,27 @@
-import {RouteChecker} from "../Checker/RouteChecker.ts";
 import {
   AppDefaultEnv,
   AppEnvType,
   AppLocaleType,
   AppRoleType,
   AppVersionType,
-  HttpDefaultMethods,
+  ComponentType,
+  Handler,
   HttpDefaultProtocols,
   HttpMethodType,
   HttpProtocolType,
+  MiddlewareHandler,
+  PageProps,
 } from "../deps.ts";
-import {IMatchedRoute, IRoute, RouteType} from "../types.ts";
+import {
+  IRoute,
+  RouteConstraintsType,
+  RouteType,
+} from "../types.ts";
 
 export class Route implements IRoute {
   public static DEFAULT_LOCALE: AppLocaleType[] = [];
-  private readonly route: RouteType;
 
-  constructor(route: RouteType) {
-    this.route = route;
-
-    if (!this.route.constraint) {
-      this.route.constraint = [];
-    }
+  constructor(private route: RouteType) {
   }
 
   public setData<T>(data: Record<string, T> = {}): this {
@@ -30,8 +30,8 @@ export class Route implements IRoute {
     return this;
   }
 
-  public getData<T>(): Record<string, T> {
-    return (this.route.data as T) ?? {};
+  public getData<T>(): Record<string, T> | null {
+    return (this.route.data as T) ?? null;
   }
 
   public setDefault(values: Record<string, string> = {}): this {
@@ -40,8 +40,8 @@ export class Route implements IRoute {
     return this;
   }
 
-  public getDefault(): Record<string, string> {
-    return this.route.default ?? {};
+  public getDefault(): Record<string, string | number> | null {
+    return this.route.default ?? null;
   }
 
   public setFixture(fixture: string | undefined): this {
@@ -64,84 +64,94 @@ export class Route implements IRoute {
     return this.route.description ?? null;
   }
 
-  public setEnv(env: AppEnvType[] = AppDefaultEnv): this {
-    this.route.env = env;
+  public setEnvs(envs: AppEnvType[] = AppDefaultEnv): this {
+    this.route.envs = envs;
 
     return this;
   }
 
-  public getEnv(): AppEnvType[] {
-    return this.route.env ?? AppDefaultEnv;
+  public getEnvs(): AppEnvType[] | null {
+    return this.route.envs ?? null;
   }
 
-  public setHost(host: string[] = []): this {
-    this.route.host = host;
+  public setHosts(hosts: string[] = []): this {
+    this.route.hosts = hosts;
 
     return this;
   }
 
-  public getHost(): string[] {
-    return this.route.host ?? [];
+  public getHosts(): string[] | null {
+    return this.route.hosts ?? null;
   }
 
-  public setIp(ip: string[] = []): this {
-    this.route.ip = ip;
+  public setIps(ips: string[] = []): this {
+    this.route.ips = ips;
 
     return this;
   }
 
-  public getIp(): string[] {
-    return this.route.ip ?? [];
+  public getIps(): string[] | null {
+    return this.route.ips ?? null;
   }
 
-  public setLocale(locale: AppLocaleType[] = Route.DEFAULT_LOCALE): this {
-    this.route.locale = locale;
+  public setLocales(locales: AppLocaleType[] = Route.DEFAULT_LOCALE): this {
+    this.route.locales = locales;
 
     return this;
   }
 
-  public getLocale(): AppLocaleType[] {
-    return this.route.locale ?? Route.DEFAULT_LOCALE;
+  public getLocales(): AppLocaleType[] | null {
+    return this.route.locales ?? null;
   }
 
-  public setComponent(component?: string): this {
-    this.route.component = component;
+  public setView(view?: ComponentType<PageProps>): this {
+    this.route.view = view;
 
     return this;
   }
 
-  public getComponent(): string | null {
-    return this.route.component ?? null;
+  public getView(): ComponentType<PageProps> | null {
+    return this.route.view ?? null;
   }
 
-  public setHandler(handler?: string): this {
+  public setHandler(handler?: Handler): this {
     this.route.handler = handler;
 
     return this;
   }
 
-  public getHandler(): string | null {
+  public getHandler(): Handler | null {
     return this.route.handler ?? null;
   }
 
-  public setMiddleware(middleware?: string[]): this {
+  public setMiddleware(middleware?: MiddlewareHandler): this {
     this.route.middleware = middleware;
 
     return this;
   }
 
-  public getMiddleware(): string[] | null {
+  public getMiddleware(): MiddlewareHandler | null {
     return this.route.middleware ?? null;
   }
 
-  public setMethod(method: HttpMethodType[] = HttpDefaultMethods): this {
-    this.route.method = method;
+  public setConstraints(constraints?: RouteConstraintsType): this {
+    this.route.constraints = constraints;
 
     return this;
   }
 
-  public getMethod(): HttpMethodType[] {
-    return this.route.method ?? HttpDefaultMethods;
+  public getConstraints(): RouteConstraintsType | null {
+    return this.route.constraints ?? null;
+  }
+
+  public setMethods(methods?: HttpMethodType[]): this {
+    this.route.methods = methods;
+
+    return this;
+  }
+
+  public getMethods(): HttpMethodType[] | null {
+    return this.route.methods ?? null;
   }
 
   public setName(name: string): this | string {
@@ -164,126 +174,53 @@ export class Route implements IRoute {
     return this.route.path;
   }
 
-  public setPort(port: string[] = []): this {
-    this.route.port = port ?? [];
+  public setPorts(ports: string[] = []): this {
+    this.route.ports = ports ?? [];
 
     return this;
   }
 
-  public getPort(): string[] {
-    return this.route.port ?? [];
+  public getPorts(): string[] | null {
+    return this.route.ports ?? null;
   }
 
-  public setProtocol(protocol: HttpProtocolType[] = HttpDefaultProtocols): this {
-    this.route.protocol = protocol;
+  public setProtocols(
+    protocols: HttpProtocolType[] = HttpDefaultProtocols,
+  ): this {
+    this.route.protocols = protocols;
 
     return this;
   }
 
-  public getProtocol(): HttpProtocolType[] {
-    return this.route.protocol ?? HttpDefaultProtocols;
+  public getProtocols(): HttpProtocolType[] | null {
+    return this.route.protocols ?? null;
   }
 
-  public setRole(role: AppRoleType[] = []): this {
-    this.route.role = role;
+  public setRoles(roles: AppRoleType[] = []): this {
+    this.route.roles = roles;
 
     return this;
   }
 
-  public getRole(): AppRoleType[] {
-    return this.route.role ?? [];
+  public getRoles(): AppRoleType[] | null {
+    return this.route.roles ?? null;
   }
 
-  public setVersion(version: AppVersionType[] = []): this {
-    this.route.version = version;
+  public setVersions(versions: AppVersionType[] = []): this {
+    this.route.versions = versions;
 
     return this;
   }
 
-  public getVersion(): AppVersionType[] {
-    return this.route.version ?? [];
+  public getVersions(): AppVersionType[] | null {
+    return this.route.versions ?? null;
   }
 
-  public where(name: string, value: string | number): this {
-    if (this.route.constraint) {
-      this.route.constraint.push({
-        key: name,
-        constraint: new RegExp(`^${value}$`),
-        context: "where",
-      });
-    }
+  // public isEquals(matchedRoute: IMatchedRoute): boolean {
+    // const routeChecker = new RouteChecker(this, matchedRoute);
 
-    return this;
-  }
+    // return routeChecker.isValid();
 
-  public whereRegex(name: string, constraint: RegExp): this {
-    if (this.route.constraint) {
-      this.route.constraint.push({
-        key: name,
-        constraint,
-        context: "regex",
-      });
-    }
-
-    return this;
-  }
-
-  public whereAlphaNumeric(name: string): this {
-    if (this.route.constraint) {
-      this.route.constraint.push({
-        key: name,
-        constraint: /^[a-z\d]+$/i,
-        context: "alphaNumeric",
-      });
-    }
-
-    return this;
-  }
-
-  public whereNumber(name: string): this {
-    if (this.route.constraint) {
-      this.route.constraint.push({
-        key: name,
-        constraint: /^\d+(?:[.,]\d+)?$/,
-        context: "number",
-      });
-    }
-
-    return this;
-  }
-
-  public whereUuid(name: string): this {
-    if (this.route.constraint) {
-      this.route.constraint.push({
-        key: name,
-        constraint:
-          /^[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i,
-        context: "uuid",
-      });
-    }
-
-    return this;
-  }
-
-  public whereIn(name: string, values: (string | number)[]): this {
-    if (this.route.constraint) {
-      this.route.constraint.push({
-        key: name,
-        constraint: new RegExp(values.join("|")),
-        context: "uuid",
-      });
-    }
-
-    return this;
-  }
-
-  public get<T>(key: keyof RouteType): T {
-    return this.route[key] as T;
-  }
-
-  public isEquals(matchedRoute: IMatchedRoute): boolean {
-    const routeChecker = new RouteChecker(this, matchedRoute);
-
-    return routeChecker.isValid();
-  }
+    // return true;
+  // }
 }

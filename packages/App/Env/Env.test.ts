@@ -1,10 +1,6 @@
-import {
-  afterAll,
-  assertEquals,
-  assertObjectMatch,
-  describe,
-  it,
-} from "../../../deps.ts";
+import { assertEquals, assertObjectMatch } from "@ooneex/testing/asserts.ts";
+import { afterAll, describe, it } from "@ooneex/testing/bdd.ts";
+
 import { env } from "./Env.ts";
 import { Helper } from "../../Helper/Helper.ts";
 import { AppEnvVarsType } from "./types.ts";

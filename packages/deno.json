@@ -10,7 +10,13 @@
       "deno.unstable"
     ]
   },
-  "importMap": "./imports_map.json",
+  "imports": {
+    "@ooneex/testing/": "https://deno.land/std@0.171.0/testing/",
+    "$fresh/": "https://deno.land/x/fresh@1.1.2/",
+    "preact": "https://esm.sh/preact@10.11.0",
+    "preact/": "https://esm.sh/preact@10.11.0/",
+    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@5.2.4"
+  },
   "tasks": {
     "test": "deno test -A .",
     "test:watch": "deno test -A --watch .",

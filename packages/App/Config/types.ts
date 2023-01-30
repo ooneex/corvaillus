@@ -1,4 +1,4 @@
-import {AppDirectoryType} from "../Directory/types.ts";
+import { AppDirectoryType } from "../Directory/types.ts";
 
 export type AppConfigErrorType = Record<"_404" | "_500", string>;
 

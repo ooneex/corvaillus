@@ -1,4 +1,4 @@
-import { assertEquals } from "../../../deps.ts";
+import { assertEquals } from "@ooneex/testing/asserts.ts";
 import { colors } from "./deps.ts";
 import { Style } from "./mod.ts";
 

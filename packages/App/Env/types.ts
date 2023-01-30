@@ -1,6 +1,5 @@
-import {DotEnvValueType} from "../../DotEnv/mod.ts";
-import {AppLocaleType} from "../types.ts";
-
+import { DotEnvValueType } from "../../DotEnv/mod.ts";
+import { AppLocaleType } from "../types.ts";
 
 export type AppEnvVarsType = Record<
   | "APP_ENV"
